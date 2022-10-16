@@ -74,6 +74,11 @@ function playSong() {
 
 // Track is looped – that means it is restarted each time its samples are playd through
 function playTrack(track, trackNumber) {
+  let volumeInput = document.getElementById(
+    "volume" + (trackNumber + 1) + "output"
+  );
+  let volumeLevel = parseInt(volumeInput.innerText, 10) / 100;
+
   let audio = new Audio();
   let i = 0;
   audio.addEventListener(
@@ -81,6 +86,9 @@ function playTrack(track, trackNumber) {
     () => {
       i = ++i < track.length ? i : 0;
       audio.src = track[i].src;
+      volumeLevel = parseInt(volumeInput.innerText, 10) / 100;
+      console.log("Audio level: " + volumeLevel);
+      audio.volume = volumeLevel;
       audio.play();
       console.log(
         "Starting: Track " + trackNumber + ", instrument " + track[i].name
@@ -88,7 +96,10 @@ function playTrack(track, trackNumber) {
     },
     true
   );
-  audio.volume = 1.0;
+
+  console.log("Audio level: " + volumeLevel);
+
+  audio.volume = volumeLevel;
   audio.loop = false;
   audio.src = track[0].src;
   audio.play();
@@ -117,7 +128,7 @@ uploadButton.addEventListener("click", () => {
   addButtons.appendChild(newButton);
 });
 
-//
+// User can add new tracks
 let trackCount = 4;
 const newTrackButton = document.getElementById("new-track");
 newTrackButton.addEventListener("click", () => {
@@ -131,30 +142,69 @@ newTrackButton.addEventListener("click", () => {
   tracksDiv.appendChild(trackDiv);
 
   /*
-  <div id="track2div">
+    <div id="track2div">
       <input type="radio" id="track2" name="track" value="1" />
-      <label for="track2">Track 2</label><br />
-  </div>
+      <label for="track2">Track 2</label>
+      <label for="volume2">Volume: </label>
+      <input
+        type="range"
+        name="volume"
+        id="volume2"
+        min="0"
+        max="200"
+        value="100"
+        oninput="this.nextElementSibling.value = this.value"
+      />
+      <output id="volume2output">100</output><span>%</span>
+    </div>
   */
 
-  let div = document.createElement("div");
+  const div = document.createElement("div");
   div.setAttribute("id", "track" + (trackCount + 1) + "div");
 
-  let selectTrack = document.createElement("input");
+  const selectTrack = document.createElement("input");
   selectTrack.setAttribute("type", "radio");
   selectTrack.setAttribute("id", "track" + (trackCount + 1));
   selectTrack.setAttribute("name", "track");
   selectTrack.setAttribute("value", trackCount);
 
-  let label = document.createElement("label");
-  label.setAttribute("for", "track" + (trackCount + 1));
-  label.innerText = " Track " + (trackCount + 1);
+  const trackLabel = document.createElement("label");
+  trackLabel.setAttribute("for", "track" + (trackCount + 1));
+  trackLabel.innerText = "Track " + (trackCount + 1);
 
-  let br = document.createElement("br");
+  const volumeLabel = document.createElement("label");
+  volumeLabel.setAttribute("for", "volume" + (trackCount + 1));
+  volumeLabel.innerText = "Volume: ";
+
+  /*
+  How to take input from type of range and show it to user:
+  https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
+  */
+  const selectVolume = document.createElement("input");
+  selectVolume.setAttribute("type", "range");
+  selectVolume.setAttribute("name", "volume");
+  selectVolume.setAttribute("id", "volume" + (trackCount + 1));
+  selectVolume.setAttribute("min", "0");
+  selectVolume.setAttribute("max", "100");
+  selectVolume.setAttribute("value", "100");
+  selectVolume.setAttribute(
+    "oninput",
+    "this.nextElementSibling.value = this.value"
+  );
+
+  const output = document.createElement("output");
+  output.setAttribute("id", "volume" + (trackCount + 1) + "output");
+  output.innerText = "100";
+
+  const span = document.createElement("span");
+  span.innerText = "%";
 
   div.appendChild(selectTrack);
-  div.appendChild(label);
-  div.appendChild(br);
+  div.appendChild(trackLabel);
+  div.appendChild(volumeLabel);
+  div.appendChild(selectVolume);
+  div.appendChild(output);
+  div.appendChild(span);
 
   const trackSelector = document.getElementById("track-selector");
   trackSelector.appendChild(div);

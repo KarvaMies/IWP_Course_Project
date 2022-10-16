@@ -18,19 +18,64 @@
       <div id="track1div">
         <input type="radio" id="track1" name="track" value="0" checked />
         <label for="track1">Track 1</label>
-        <!--input type="range" name="volume" min="0" max="2" /--><br />
+        <label for="volume4">Volume: </label>
+        <!-- How to take input from type of range and show it to user: 
+          https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value-->
+        <input
+          type="range"
+          name="volume"
+          id="volume1"
+          min="0"
+          max="100"
+          value="100"
+          oninput="this.nextElementSibling.value = this.value"
+        />
+        <output id="volume1output">100</output><span>%</span>
       </div>
       <div id="track2div">
         <input type="radio" id="track2" name="track" value="1" />
-        <label for="track2">Track 2</label><br />
+        <label for="track2">Track 2</label>
+        <label for="volume4">Volume: </label>
+        <input
+          type="range"
+          name="volume"
+          id="volume2"
+          min="0"
+          max="100"
+          value="100"
+          oninput="this.nextElementSibling.value = this.value"
+        />
+        <output id="volume2output">100</output><span>%</span>
       </div>
       <div id="track3div">
         <input type="radio" id="track3" name="track" value="2" />
-        <label for="track3">Track 3</label><br />
+        <label for="track3">Track 3</label>
+        <label for="volume4">Volume: </label>
+        <input
+          type="range"
+          name="volume"
+          id="volume3"
+          min="0"
+          max="100"
+          value="100"
+          oninput="this.nextElementSibling.value = this.value"
+        />
+        <output id="volume3output">100</output><span>%</span>
       </div>
       <div id="track4div">
         <input type="radio" id="track4" name="track" value="3" />
-        <label for="track4">Track 4</label><br />
+        <label for="track4">Track 4</label>
+        <label for="volume4">Volume: </label>
+        <input
+          type="range"
+          name="volume"
+          id="volume4"
+          min="0"
+          max="100"
+          value="100"
+          oninput="this.nextElementSibling.value = this.value"
+        />
+        <output id="volume4output">100</output><span>%</span>
       </div>
     </div>
 
