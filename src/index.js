@@ -121,6 +121,8 @@ uploadButton.addEventListener("click", () => {
 let trackCount = 4;
 const newTrackButton = document.getElementById("new-track");
 newTrackButton.addEventListener("click", () => {
+  tracks.push([]);
+
   let trackDiv = document.createElement("div");
   trackDiv.setAttribute("id", "trackDiv" + trackCount);
   let trackDivHeader = document.createElement("h2");
@@ -129,9 +131,15 @@ newTrackButton.addEventListener("click", () => {
   tracksDiv.appendChild(trackDiv);
 
   /*
-  <input type="radio" id="track3" name="track" value="2" />
-      <label for="track3">Track 3</label><br />
+  <div id="track2div">
+      <input type="radio" id="track2" name="track" value="1" />
+      <label for="track2">Track 2</label><br />
+  </div>
   */
+
+  let div = document.createElement("div");
+  div.setAttribute("id", "track" + (trackCount + 1) + "div");
+
   let selectTrack = document.createElement("input");
   selectTrack.setAttribute("type", "radio");
   selectTrack.setAttribute("id", "track" + (trackCount + 1));
@@ -144,10 +152,12 @@ newTrackButton.addEventListener("click", () => {
 
   let br = document.createElement("br");
 
+  div.appendChild(selectTrack);
+  div.appendChild(label);
+  div.appendChild(br);
+
   const trackSelector = document.getElementById("track-selector");
-  trackSelector.appendChild(selectTrack);
-  trackSelector.appendChild(label);
-  trackSelector.appendChild(br);
+  trackSelector.appendChild(div);
 
   trackCount++;
 });
