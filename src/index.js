@@ -32,10 +32,17 @@ for (let i = 0; i < tracks.length; i++) {
 const addButtons = document.getElementById("addButtons");
 let id = 0;
 samples.forEach((sample) => {
-  console.log(sample.name);
+  let duration;
+  const au = document.createElement("audio");
+  au.src = sample.src;
+  au.addEventListener("loadedmetadata", () => {
+    duration = au.duration;
+    console.log(sample.name);
+  });
 
   let newButton = document.createElement("button");
   newButton.setAttribute("data-id", id++);
+  newButton.setAttribute("duration", duration + "px");
   newButton.addEventListener("click", () => addSample(newButton));
   newButton.innerText = sample.name;
   addButtons.appendChild(newButton);
@@ -211,3 +218,5 @@ newTrackButton.addEventListener("click", () => {
 
   trackCount++;
 });
+
+console.log("src/audio/bass.mp3");
