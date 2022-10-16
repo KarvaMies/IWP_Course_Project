@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Maker</title>
+  </head>
+
+  <body>
+    <h1>Music Maker</h1>
+    <button id="play">Play</button>
+    <input type="file" id="input-sample" name="input-sample" accept="audio/*" />
+    <button id="upload">Add new sample</button>
+    <br />
+
+    <div id="track-selector">
+      <div id="track1div">
+        <input type="radio" id="track1" name="track" value="0" checked />
+        <label for="track1">Track 1</label>
+        <!--input type="range" name="volume" min="0" max="2" /--><br />
+      </div>
+      <div id="track2div">
+        <input type="radio" id="track2" name="track" value="1" />
+        <label for="track2">Track 2</label><br />
+      </div>
+      <div id="track3div">
+        <input type="radio" id="track3" name="track" value="2" />
+        <label for="track3">Track 3</label><br />
+      </div>
+      <div id="track4div">
+        <input type="radio" id="track4" name="track" value="3" />
+        <label for="track4">Track 4</label><br />
+      </div>
+    </div>
+
+    <button id="new-track">New track</button>
+    <br /><br />
+    <div id="addButtons"></div>
+
+    <div id="tracks"></div>
+
+    <script src="src/index.js"></script>
+  </body>
+</html>
