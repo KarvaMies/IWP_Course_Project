@@ -35,14 +35,16 @@ samples.forEach((sample) => {
   let duration;
   const au = document.createElement("audio");
   au.src = sample.src;
+
+  let newButton = document.createElement("button");
+
   au.addEventListener("loadedmetadata", () => {
     duration = au.duration;
     console.log(sample.name);
+    newButton.setAttribute("duration", duration);
   });
 
-  let newButton = document.createElement("button");
   newButton.setAttribute("data-id", id++);
-  newButton.setAttribute("duration", duration + "px");
   newButton.addEventListener("click", () => addSample(newButton));
   newButton.innerText = sample.name;
   addButtons.appendChild(newButton);
@@ -53,15 +55,18 @@ function addSample(addButton) {
   const sampleNumber = addButton.dataset.id;
   const trackNumber = document.querySelector("input[name='track']:checked")
     .value;
+  const duration = addButton.getAttribute("duration");
 
   console.log("Sample number: " + sampleNumber);
   console.log("Track number: " + trackNumber);
+  console.log("Duration: " + duration);
 
   tracks[trackNumber].push(samples[sampleNumber]);
 
   let trackDiv = document.getElementById("trackDiv" + trackNumber);
   let newItem = document.createElement("div");
   newItem.innerText = samples[sampleNumber].name;
+  newItem.style.width = duration * 15 + "px";
   trackDiv.appendChild(newItem);
 }
 
@@ -95,6 +100,7 @@ function playTrack(track, trackNumber) {
       audio.src = track[i].src;
       volumeLevel = parseInt(volumeInput.innerText, 10) / 100;
       console.log("Audio level: " + volumeLevel);
+      console.log("Duration: " + audio.duration);
       audio.volume = volumeLevel;
       audio.play();
       console.log(
@@ -109,6 +115,9 @@ function playTrack(track, trackNumber) {
   audio.volume = volumeLevel;
   audio.loop = false;
   audio.src = track[0].src;
+
+  console.log("Duration: " + audio.duration);
+
   audio.play();
   console.log(
     "Starting: Track " + trackNumber + ", instrument " + track[i].name
@@ -122,18 +131,56 @@ uploadButton.addEventListener("click", () => {
   let audioSrc = "";
   if (!file) return;
 
+  const fileName = file.name.split(".")[0];
+  console.log(fileName);
+
   audioSrc = URL.createObjectURL(file);
-  let sample = { src: audioSrc, name: "New Sample" };
+  let sample = { src: audioSrc, name: fileName };
   samples.push(sample);
   id = samples.length - 1;
 
+  const au = document.createElement("audio");
+  au.src = audioSrc;
+  let duration;
+
   let newButton = document.createElement("button");
+
+  au.addEventListener("loadedmetadata", () => {
+    duration = au.duration;
+    console.log(sample.name);
+    newButton.setAttribute("duration", duration);
+  });
+
   newButton.setAttribute("data-id", id);
   newButton.addEventListener("click", () => addSample(newButton));
   newButton.innerText = sample.name;
 
   addButtons.appendChild(newButton);
 });
+
+/*
+const addButtons = document.getElementById("addButtons");
+let id = 0;
+samples.forEach((sample) => {
+  let duration;
+  const au = document.createElement("audio");
+  au.src = sample.src;
+
+  let newButton = document.createElement("button");
+
+  au.addEventListener("loadedmetadata", () => {
+    duration = au.duration;
+    console.log(sample.name);
+    //console.log(duration);
+    newButton.setAttribute("duration", duration);
+  });
+
+  newButton.setAttribute("data-id", id++);
+  newButton.addEventListener("click", () => addSample(newButton));
+  newButton.innerText = sample.name;
+  addButtons.appendChild(newButton);
+});
+*/
 
 // User can add new tracks
 let trackCount = 4;
@@ -143,28 +190,11 @@ newTrackButton.addEventListener("click", () => {
 
   let trackDiv = document.createElement("div");
   trackDiv.setAttribute("id", "trackDiv" + trackCount);
+  trackDiv.setAttribute("class", "newTrack");
   let trackDivHeader = document.createElement("h2");
   trackDivHeader.innerText = "Track " + (trackCount + 1);
   trackDiv.appendChild(trackDivHeader);
   tracksDiv.appendChild(trackDiv);
-
-  /*
-    <div id="track2div">
-      <input type="radio" id="track2" name="track" value="1" />
-      <label for="track2">Track 2</label>
-      <label for="volume2">Volume: </label>
-      <input
-        type="range"
-        name="volume"
-        id="volume2"
-        min="0"
-        max="200"
-        value="100"
-        oninput="this.nextElementSibling.value = this.value"
-      />
-      <output id="volume2output">100</output><span>%</span>
-    </div>
-  */
 
   const div = document.createElement("div");
   div.setAttribute("id", "track" + (trackCount + 1) + "div");

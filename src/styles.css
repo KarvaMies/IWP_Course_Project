@@ -8,6 +8,7 @@ body {
   font-family: sans-serif;
   background: linear-gradient(135deg, #ffffff, #cccccc);
   background-attachment: fixed;
+  text-align: center;
 }
 
 h1 {
@@ -24,6 +25,7 @@ input {
   font-size: 16px;
   font-weight: bold;
   text-align: center;
+  border-radius: 7px;
 }
 
 input[type="file"] {
@@ -38,6 +40,7 @@ input:hover {
 
 #addButtons button {
   margin: 2px;
+  text-transform: capitalize;
 }
 
 #tracks {
@@ -51,6 +54,7 @@ input:hover {
   height: 50px;
   padding: 0;
   margin-bottom: 5px;
+  border-radius: 10px;
 }
 
 #tracks > div h2 {
@@ -62,11 +66,12 @@ input:hover {
   color: #ffffff;
   padding: 2px 5px 2px 10px;
   margin: 0px 0px 5px -5px;
-  width: 100px; /*attr(duration) pitäs toimia kai?*/
+  width: 100px;
   border-radius: 0 0 15px 5px;
   font-size: 1.2rem;
   font-weight: bold;
   box-shadow: 3px 3px 3px #cccccc;
+  text-transform: capitalize;
 }
 
 #tracks > div > div:first-of-type {
