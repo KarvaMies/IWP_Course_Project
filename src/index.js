@@ -5,6 +5,7 @@ const samples = [];
 
 samples.push({ src: "src/audio/bass.mp3", name: "Bass" });
 samples.push({ src: "src/audio/drum.mp3", name: "Drum" });
+samples.push({ src: "src/audio/guitar.mp3", name: "Guitar" });
 samples.push({ src: "src/audio/piano.mp3", name: "Piano" });
 samples.push({ src: "src/audio/silence.mp3", name: "Silence" });
 samples.push({ src: "src/audio/strange-beat.mp3", name: "Strange Beat" });
@@ -99,9 +100,11 @@ function playTrack(track, trackNumber) {
       i = ++i < track.length ? i : 0;
       audio.src = track[i].src;
       volumeLevel = parseInt(volumeInput.innerText, 10) / 100;
+      audio.volume = volumeLevel;
+
       console.log("Audio level: " + volumeLevel);
       console.log("Duration: " + audio.duration);
-      audio.volume = volumeLevel;
+
       audio.play();
       console.log(
         "Starting: Track " + trackNumber + ", instrument " + track[i].name
@@ -110,12 +113,11 @@ function playTrack(track, trackNumber) {
     true
   );
 
-  console.log("Audio level: " + volumeLevel);
-
   audio.volume = volumeLevel;
   audio.loop = false;
   audio.src = track[0].src;
 
+  console.log("Audio level: " + volumeLevel);
   console.log("Duration: " + audio.duration);
 
   audio.play();
@@ -132,7 +134,6 @@ uploadButton.addEventListener("click", () => {
   if (!file) return;
 
   const fileName = file.name.split(".")[0];
-  console.log(fileName);
 
   audioSrc = URL.createObjectURL(file);
   let sample = { src: audioSrc, name: fileName };
@@ -158,30 +159,6 @@ uploadButton.addEventListener("click", () => {
   addButtons.appendChild(newButton);
 });
 
-/*
-const addButtons = document.getElementById("addButtons");
-let id = 0;
-samples.forEach((sample) => {
-  let duration;
-  const au = document.createElement("audio");
-  au.src = sample.src;
-
-  let newButton = document.createElement("button");
-
-  au.addEventListener("loadedmetadata", () => {
-    duration = au.duration;
-    console.log(sample.name);
-    //console.log(duration);
-    newButton.setAttribute("duration", duration);
-  });
-
-  newButton.setAttribute("data-id", id++);
-  newButton.addEventListener("click", () => addSample(newButton));
-  newButton.innerText = sample.name;
-  addButtons.appendChild(newButton);
-});
-*/
-
 // User can add new tracks
 let trackCount = 4;
 const newTrackButton = document.getElementById("new-track");
@@ -190,7 +167,7 @@ newTrackButton.addEventListener("click", () => {
 
   let trackDiv = document.createElement("div");
   trackDiv.setAttribute("id", "trackDiv" + trackCount);
-  trackDiv.setAttribute("class", "newTrack");
+
   let trackDivHeader = document.createElement("h2");
   trackDivHeader.innerText = "Track " + (trackCount + 1);
   trackDiv.appendChild(trackDivHeader);
@@ -211,7 +188,7 @@ newTrackButton.addEventListener("click", () => {
 
   const volumeLabel = document.createElement("label");
   volumeLabel.setAttribute("for", "volume" + (trackCount + 1));
-  volumeLabel.innerText = "Volume: ";
+  volumeLabel.innerText = " Volume: ";
 
   /*
   How to take input from type of range and show it to user:
@@ -229,6 +206,9 @@ newTrackButton.addEventListener("click", () => {
     "this.nextElementSibling.value = this.value"
   );
 
+  const emptySpan = document.createElement("span");
+  emptySpan.innerText = " ";
+
   const output = document.createElement("output");
   output.setAttribute("id", "volume" + (trackCount + 1) + "output");
   output.innerText = "100";
@@ -239,6 +219,7 @@ newTrackButton.addEventListener("click", () => {
   div.appendChild(selectTrack);
   div.appendChild(trackLabel);
   div.appendChild(volumeLabel);
+  div.appendChild(emptySpan);
   div.appendChild(selectVolume);
   div.appendChild(output);
   div.appendChild(span);
@@ -246,7 +227,7 @@ newTrackButton.addEventListener("click", () => {
   const trackSelector = document.getElementById("track-selector");
   trackSelector.appendChild(div);
 
+  console.log("Added new track");
+
   trackCount++;
 });
-
-console.log("src/audio/bass.mp3");
